@@ -1,20 +1,19 @@
 "use client"
 import { useState } from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
-
 import { morse } from "@/utils/morse"
 import { MorseTypes } from "@/types/morseTypes"
 
 export const Inputs = () => {
 
-    const [translation, setTranslatioin] = useState("")
+    const [translation, setTranslation] = useState<MorseTypes>()
     const [text, setText] = useState("")
     const [isDisabled, setDisabled] = useState(true)
     const { register, handleSubmit } = useForm()
 
     const handleWrite = (code: MorseTypes) => {
-        setText(code.alphabet)
-        setTranslatioin(code.code)
+        setText(prev => prev + code.alphabet)
+        setTranslation(prev => ({ alphabet: code.alphabet, code: (prev?.code || "") + code.code }))
     }
 
     return (
@@ -34,6 +33,7 @@ export const Inputs = () => {
                     <textarea 
                         {...register("text")} className="p-3 border border-gray-400 w-full rounded-md outline-0" 
                         value={text}
+                        onChange={(e)=>setText(e.target.value)}
                     />
                 </label>
                 <label>
@@ -42,7 +42,7 @@ export const Inputs = () => {
                         {...register("translation")}
                         disabled={isDisabled}
                         className={`p-3 border border-gray-400 w-full rounded-md outline-0 ${isDisabled && "bg-gray-300"}`}
-                        value={translation}
+                        value={translation?.code}
                     />
                 </label>
             </form>

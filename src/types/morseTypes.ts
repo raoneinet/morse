@@ -1,4 +1,4 @@
-export type MorseTypes = {
-    alphabet: string
-    code: string
+export interface MorseTypes {
+    alphabet: string;
+    code: string;
 }
