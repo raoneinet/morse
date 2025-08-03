@@ -11,46 +11,37 @@ export const Inputs = () => {
     const [isDisabled, setDisabled] = useState(true)
     const { register, handleSubmit } = useForm()
 
-    // const handleChange = (e: any) => {
-    //     setText(e.target.value)
-    // }
-
-    // const handleWrite = (code: MorseTypes) => {
-    //     setText(prev => prev + code.alphabet)
-    //     setTranslation(prev => ({ alphabet: code.alphabet, code: (prev?.code || "") + code.code + " " }))
-    // }
-
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newValue = e.target.value;
-    const lastChar = newValue[newValue.length - 1]?.toLowerCase();
-    const isBackspace = newValue.length < text.length;
+        const newValue = e.target.value;
+        const lastChar = newValue[newValue.length - 1]?.toLowerCase();
+        const isBackspace = newValue.length < text.length;
 
-    if (isBackspace) {
-        setText(newValue);
-        setTranslation(prev => {
-            if (!prev?.code) return undefined;
-            const codes = prev.code.trim().split(" ");
-            codes.pop();
-            return {
-                alphabet: prev.alphabet,
-                code: codes.join(" ") + (codes.length > 0 ? " " : "")
-            };
-        });
-    } else if (/[a-zA-Z0-9]/.test(lastChar)) {
-        const morseCode = morse.find(item => item.alphabet === lastChar);
-        if (morseCode) {
+        if (isBackspace) {
             setText(newValue);
-            setTranslation(prev => ({
-                alphabet: morseCode.alphabet,
-                code: (prev?.code || "") + morseCode.code + " "
-            }));
+            setTranslation(prev => {
+                if (!prev?.code) return undefined;
+                const codes = prev.code.trim().split(" ");
+                codes.pop();
+                return {
+                    alphabet: prev.alphabet,
+                    code: codes.join(" ") + (codes.length > 0 ? " " : "")
+                };
+            });
+        } else if (/[a-zA-Z0-9]/.test(lastChar)) {
+            const morseCode = morse.find(item => item.alphabet === lastChar);
+            if (morseCode) {
+                setText(newValue);
+                setTranslation(prev => ({
+                    alphabet: morseCode.alphabet,
+                    code: (prev?.code || "") + morseCode.code + " "
+                }));
+            } else {
+                setText(newValue); // sem tradução
+            }
         } else {
-            setText(newValue); // sem tradução
+            setText(newValue); // outros caracteres
         }
-    } else {
-        setText(newValue); // outros caracteres
-    }
-};
+    };
 
 
 
@@ -75,9 +66,7 @@ export const Inputs = () => {
                         {...register("text")}
                         className="p-3 border border-gray-400 w-full rounded-md"
                         value={text}
-                        
                         onChange={handleChange}
-                        
                     />
                 </label>
                 <label>
