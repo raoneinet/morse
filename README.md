@@ -51,9 +51,13 @@ http://localhost:3000
 
 🌐 Exemplos de Tradução
 Texto	Morse
+
 HELLO	.... . .-.. .-.. ---
+
 SOS	... --- ...
+
 123	.---- ..--- ...--
+
 
 ✅ Caracteres Suportados
 Letras A-Z
