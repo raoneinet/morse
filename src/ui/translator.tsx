@@ -3,7 +3,7 @@ import { Inputs } from "@/components/inputs"
 
 export const Translator = ()=>{
     return (
-        <div className="w-4xl mx-auto bg-white">
+        <div className="max-w-4xl mx-auto bg-white">
             <Header/>
             <Inputs/>
         </div>

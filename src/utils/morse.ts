@@ -25,5 +25,16 @@ export const morse: MorseTypes[] = [
     {alphabet: "v", code: "...-"},
     {alphabet: "x", code: "-..-"},
     {alphabet: "y", code: "-.--"},
-    {alphabet: "z", code: "--.."}
+    {alphabet: "z", code: "--.."},
+    {alphabet: "0", code: "-----"},
+    {alphabet: "1", code: ".----"},
+    {alphabet: "2", code: "..---"},
+    {alphabet: "3", code: "...--"},
+    {alphabet: "4", code: "....-"},
+    {alphabet: "5", code: "....."},
+    {alphabet: "6", code: "-...."},
+    {alphabet: "7", code: "--..."},
+    {alphabet: "8", code: "---.."},
+    {alphabet: "9", code: "----."},
+    
 ]

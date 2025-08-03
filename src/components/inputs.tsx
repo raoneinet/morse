@@ -19,14 +19,14 @@ export const Inputs = () => {
     const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         const letter = e.key.toLowerCase();
 
-        if (letter.length === 1 && /[a-z]/.test(letter)) {
+        if (letter.length === 1 && /[a-zA-Z0-9]/.test(letter)) {
             const morseCode = morse.find(item => item.alphabet === letter);
             if (morseCode) {
                 handleWrite(morseCode);
             }
         }
 
-        if(e.key === "Backspace") {
+        if (e.key === "Backspace") {
             setText(prev => prev.slice(0, -1));
             setTranslation(prev => {
                 if (!prev?.code) return undefined;
@@ -44,27 +44,29 @@ export const Inputs = () => {
 
 
     return (
-    <div className="w-full p-5">
-        <div className="flex w-full gap-2">
-        {morse?.map((item, index) => (
-            <div key={index} onClick={() => handleWrite(item)}
-            className="flex-1 border border-y-violet-900 bg-violet-500 rounded-lg text-center text-white font-bold cursor-pointer">
-            {item.alphabet}
+        <div className="w-full p-5">
+            <div className="flex flex-col gap-2">
+                <div className="flex flex-wrap justify-center w-full gap-1">
+                    {morse?.map((item, index) => (
+                        <div key={index} onClick={() => handleWrite(item)}
+                            className="w-7 border border-y-violet-900 bg-violet-500 rounded-lg text-center text-white font-bold cursor-pointer">
+                            {item.alphabet}
+                        </div>
+                    )
+                    )}
+                </div>
             </div>
-        )
-        )}
-        </div>
-        <form className="flex flex-col gap-3">
-        <label>
-            <p>Text</p>
-            <textarea
-            {...register("text")} 
-            className="p-3 border border-gray-400 w-full rounded-md outline-0"
-            value={text}
-            onKeyUp={handleKeyPress}
-            readOnly
-            />
-        </label>
+            <form className="flex flex-col gap-3">
+                <label>
+                    <p>Text</p>
+                    <textarea
+                        {...register("text")}
+                        className="p-3 border border-gray-400 w-full rounded-md outline-0"
+                        value={text}
+                        onKeyUp={handleKeyPress}
+                        readOnly
+                    />
+                </label>
                 <label>
                     <p>Translation</p>
                     <textarea
