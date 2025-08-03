@@ -70,7 +70,6 @@ export const Inputs = () => {
                         value={text}
                         onKeyUp={handleKeyPress}
                         onChange={handleChange}
-                        readOnly
                     />
                 </label>
                 <label>
