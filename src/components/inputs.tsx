@@ -11,39 +11,46 @@ export const Inputs = () => {
     const [isDisabled, setDisabled] = useState(true)
     const { register, handleSubmit } = useForm()
 
-    const handleChange = (e: any)=>{
-        setText(prev => prev + e.target.value)
-        console.log(text)
-    }
+    // const handleChange = (e: any) => {
+    //     setText(e.target.value)
+    // }
 
-    const handleWrite = (code: MorseTypes) => {
-        setText(prev => prev + code.alphabet)
-        setTranslation(prev => ({ alphabet: code.alphabet, code: (prev?.code || "") + code.code + " " }))
-    }
+    // const handleWrite = (code: MorseTypes) => {
+    //     setText(prev => prev + code.alphabet)
+    //     setTranslation(prev => ({ alphabet: code.alphabet, code: (prev?.code || "") + code.code + " " }))
+    // }
 
-    const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        const letter = e.key.toLowerCase();
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newValue = e.target.value;
+    const lastChar = newValue[newValue.length - 1]?.toLowerCase();
+    const isBackspace = newValue.length < text.length;
 
-        if (letter.length === 1 && /[a-zA-Z0-9]/.test(letter)) {
-            const morseCode = morse.find(item => item.alphabet === letter);
-            if (morseCode) {
-                handleWrite(morseCode);
-            }
+    if (isBackspace) {
+        setText(newValue);
+        setTranslation(prev => {
+            if (!prev?.code) return undefined;
+            const codes = prev.code.trim().split(" ");
+            codes.pop();
+            return {
+                alphabet: prev.alphabet,
+                code: codes.join(" ") + (codes.length > 0 ? " " : "")
+            };
+        });
+    } else if (/[a-zA-Z0-9]/.test(lastChar)) {
+        const morseCode = morse.find(item => item.alphabet === lastChar);
+        if (morseCode) {
+            setText(newValue);
+            setTranslation(prev => ({
+                alphabet: morseCode.alphabet,
+                code: (prev?.code || "") + morseCode.code + " "
+            }));
+        } else {
+            setText(newValue); // sem tradução
         }
-
-        if (e.key === "Backspace") {
-            setText(prev => prev.slice(0, -1));
-            setTranslation(prev => {
-                if (!prev?.code) return undefined;
-                const codes = prev.code.trim().split(" ");
-                codes.pop();
-                return {
-                    alphabet: prev.alphabet,
-                    code: codes.join(" ") + (codes.length > 0 ? " " : "")
-                };
-            });
-        }
-    };
+    } else {
+        setText(newValue); // outros caracteres
+    }
+};
 
 
 
@@ -53,7 +60,7 @@ export const Inputs = () => {
             <div className="flex flex-col gap-2">
                 <div className="flex flex-wrap justify-center w-full gap-1">
                     {morse?.map((item, index) => (
-                        <div key={index} onClick={() => handleWrite(item)}
+                        <div key={index}
                             className="w-7 border border-y-violet-900 bg-violet-500 rounded-lg text-center text-white font-bold cursor-pointer">
                             {item.alphabet}
                         </div>
@@ -68,8 +75,9 @@ export const Inputs = () => {
                         {...register("text")}
                         className="p-3 border border-gray-400 w-full rounded-md"
                         value={text}
-                        onKeyUp={handleKeyPress}
+                        
                         onChange={handleChange}
+                        
                     />
                 </label>
                 <label>
