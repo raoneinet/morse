@@ -24,7 +24,7 @@ Aplicação web desenvolvida com **React**, **Next.js**, **TypeScript** e **Tail
 
 ---
 
-## 🚀 Como rodar localmente<img width="1922" height="934" alt="morse" src="https://github.com/user-attachments/assets/a7ada4e6-af7d-44b6-8210-a85b00a01469" />
+## 🚀 Como rodar localmente
 
 
 1. Clone o repositório:
