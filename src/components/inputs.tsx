@@ -11,6 +11,11 @@ export const Inputs = () => {
     const [isDisabled, setDisabled] = useState(true)
     const { register, handleSubmit } = useForm()
 
+    const handleChange = (e: any)=>{
+        setText(prev => prev + e.target.value)
+        console.log(text)
+    }
+
     const handleWrite = (code: MorseTypes) => {
         setText(prev => prev + code.alphabet)
         setTranslation(prev => ({ alphabet: code.alphabet, code: (prev?.code || "") + code.code + " " }))
@@ -61,9 +66,10 @@ export const Inputs = () => {
                     <p>Text</p>
                     <textarea
                         {...register("text")}
-                        className="p-3 border border-gray-400 w-full rounded-md outline-0"
+                        className="p-3 border border-gray-400 w-full rounded-md"
                         value={text}
                         onKeyUp={handleKeyPress}
+                        onChange={handleChange}
                         readOnly
                     />
                 </label>
